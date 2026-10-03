@@ -1,16 +1,3 @@
-const habitInput = document.getElementById("habitInput");
-const addHabit = document.getElementById("addHabit");
-const habitList = document.getElementById("habitList");
-
-const progressText = document.getElementById("progressText");
-const progressBar = document.getElementById("progressBar");
-
-const morning = document.getElementById("morning");
-const afternoon = document.getElementById("afternoon");
-const evening = document.getElementById("evening");
-const night = document.getElementById("night");
-
-
 // ADD HABIT
 addHabit.onclick = function () {
 
@@ -23,7 +10,10 @@ addHabit.onclick = function () {
 
     let li = document.createElement("li");
 
-    li.textContent = habit + " ";
+    let checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+
+    let habitText = document.createTextNode(" " + habit + " ");
 
     let deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete";
@@ -32,13 +22,14 @@ addHabit.onclick = function () {
         li.remove();
     };
 
+    li.appendChild(checkbox);
+    li.appendChild(habitText);
     li.appendChild(deleteButton);
+
     habitList.appendChild(li);
 
     habitInput.value = "";
 };
-
-
 // UPDATE PROGRESS
 function updateProgress() {
 
