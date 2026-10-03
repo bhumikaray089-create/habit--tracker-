@@ -1,49 +1,50 @@
-const habitInput = document.getElementById("habitInput");
-const addHabit = document.getElementById("addHabit");
-const habitList = document.getElementById("habitList");
 
-const checkboxes = document.querySelectorAll(".checkpoints input");
+addHabit.onclick = function () {
 
-const progressText = document.getElementById("progressText");
-const progressBar = document.getElementById("progressBar");
+    let habit = habitInput.value.trim();
 
-// Add habit
-addHabit.addEventListener("click", function () {
-
-    if (habitInput.value.trim() === "") {
+    if (habit === "") {
         alert("Please enter a habit!");
         return;
     }
 
-    const li = document.createElement("li");
+    let li = document.createElement("li");
 
-    li.innerHTML =
-        habitInput.value +
-        ' <button onclick="this.parentElement.remove()">Delete</button>';
+    li.textContent = habit + " ";
 
+    let deleteButton = document.createElement("button");
+    deleteButton.textContent = "Delete";
+
+    deleteButton.onclick = function () {
+        li.remove();
+    };
+
+    li.appendChild(deleteButton);
     habitList.appendChild(li);
 
     habitInput.value = "";
-});
+};
 
-// Calculate progress
+
+// CHECKPOINT PROGRESS
 function updateProgress() {
 
     let completed = 0;
 
-    for (let i = 0; i < checkboxes.length; i++) {
-        if (checkboxes[i].checked) {
-            completed++;
+    checkpoints.forEach(function (checkpoint) {
+        if (checkpoint.checked) {
+            completed = completed + 1;
         }
-    }
+    });
 
-    let percentage = (completed / 4) * 100;
+    let percentage = (completed / checkpoints.length) * 100;
 
     progressText.textContent = percentage + "% Complete";
     progressBar.style.width = percentage + "%";
 }
 
-// Detect checkbox changes
-for (let i = 0; i < checkboxes.length; i++) {
-    checkboxes[i].addEventListener("change", updateProgress);
-}
+
+// CHECK WHEN A CHECKBOX IS SELECTED
+checkpoints.forEach(function (checkpoint) {
+    checkpoint.addEventListener("change", updateProgress);
+});
