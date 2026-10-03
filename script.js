@@ -1,3 +1,16 @@
+const habitInput = document.getElementById("habitInput");
+const addHabit = document.getElementById("addHabit");
+const habitList = document.getElementById("habitList");
+
+const progressText = document.getElementById("progressText");
+const progressBar = document.getElementById("progressBar");
+
+const morning = document.getElementById("morning");
+const afternoon = document.getElementById("afternoon");
+const evening = document.getElementById("evening");
+const night = document.getElementById("night");
+
+
 // ADD HABIT
 addHabit.onclick = function () {
 
@@ -10,11 +23,14 @@ addHabit.onclick = function () {
 
     let li = document.createElement("li");
 
-    let checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
+    // Create checkbox for the habit
+    let habitCheckbox = document.createElement("input");
+    habitCheckbox.type = "checkbox";
 
-    let habitText = document.createTextNode(" " + habit + " ");
+    // Create habit name
+    let habitName = document.createTextNode(" " + habit + " ");
 
+    // Create delete button
     let deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete";
 
@@ -22,15 +38,18 @@ addHabit.onclick = function () {
         li.remove();
     };
 
-    li.appendChild(checkbox);
-    li.appendChild(habitText);
+    // Put everything inside the list item
+    li.appendChild(habitCheckbox);
+    li.appendChild(habitName);
     li.appendChild(deleteButton);
 
     habitList.appendChild(li);
 
     habitInput.value = "";
 };
-// UPDATE PROGRESS
+
+
+// UPDATE DAILY CHECKPOINT PROGRESS
 function updateProgress() {
 
     let completed = 0;
@@ -58,6 +77,7 @@ function updateProgress() {
 }
 
 
+// CHECKPOINT EVENTS
 morning.onchange = updateProgress;
 afternoon.onchange = updateProgress;
 evening.onchange = updateProgress;
