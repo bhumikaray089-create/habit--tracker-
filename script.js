@@ -1,4 +1,17 @@
+const habitInput = document.getElementById("habitInput");
+const addHabit = document.getElementById("addHabit");
+const habitList = document.getElementById("habitList");
 
+const progressText = document.getElementById("progressText");
+const progressBar = document.getElementById("progressBar");
+
+const morning = document.getElementById("morning");
+const afternoon = document.getElementById("afternoon");
+const evening = document.getElementById("evening");
+const night = document.getElementById("night");
+
+
+// ADD HABIT
 addHabit.onclick = function () {
 
     let habit = habitInput.value.trim();
@@ -26,25 +39,35 @@ addHabit.onclick = function () {
 };
 
 
-// CHECKPOINT PROGRESS
+// UPDATE PROGRESS
 function updateProgress() {
 
     let completed = 0;
 
-    checkpoints.forEach(function (checkpoint) {
-        if (checkpoint.checked) {
-            completed = completed + 1;
-        }
-    });
+    if (morning.checked) {
+        completed++;
+    }
 
-    let percentage = (completed / checkpoints.length) * 100;
+    if (afternoon.checked) {
+        completed++;
+    }
+
+    if (evening.checked) {
+        completed++;
+    }
+
+    if (night.checked) {
+        completed++;
+    }
+
+    let percentage = completed * 25;
 
     progressText.textContent = percentage + "% Complete";
     progressBar.style.width = percentage + "%";
 }
 
 
-// CHECK WHEN A CHECKBOX IS SELECTED
-checkpoints.forEach(function (checkpoint) {
-    checkpoint.addEventListener("change", updateProgress);
-});
+morning.onchange = updateProgress;
+afternoon.onchange = updateProgress;
+evening.onchange = updateProgress;
+night.onchange = updateProgress;
