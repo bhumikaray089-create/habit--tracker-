@@ -23,6 +23,5 @@ addHabit.addEventListener("click", function () {
     });
 
     habitList.appendChild(li);
-
     habitInput.value = "";
 });
