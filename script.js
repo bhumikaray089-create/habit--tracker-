@@ -1,73 +1,58 @@
+// Get HTML elements
 const habitInput = document.getElementById("habitInput");
 const addHabit = document.getElementById("addHabit");
 const habitList = document.getElementById("habitList");
+
+const checkboxes = document.querySelectorAll(
+    '.checkpoints input[type="checkbox"]'
+);
+
 const progressText = document.getElementById("progressText");
 const progressBar = document.getElementById("progressBar");
 
-let habits = [];
-
+// Add a new habit
 addHabit.addEventListener("click", function () {
-    const habitName = habitInput.value.trim();
 
-    if (habitName === "") {
-        alert("Please enter a habit.");
+    const habit = habitInput.value.trim();
+
+    if (habit === "") {
+        alert("Please enter a habit!");
         return;
     }
 
-    habits.push({
-        name: habitName,
-        completed: false
-    });
+    const li = document.createElement("li");
+
+    li.innerHTML = `
+        ${habit}
+        <button onclick="this.parentElement.remove()">Delete</button>
+    `;
+
+    habitList.appendChild(li);
 
     habitInput.value = "";
-    displayHabits();
 });
 
-function displayHabits() {
-    habitList.innerHTML = "";
+// Update progress
+function updateProgress() {
 
-    habits.forEach(function (habit, index) {
-        const li = document.createElement("li");
+    let completed = 0;
 
-        li.innerHTML = `
-            <label>
-                <input type="checkbox" ${habit.completed ? "checked" : ""}>
-                <span>${habit.name}</span>
-            </label>
-            <button class="delete-btn">Delete</button>
-        `;
-
-        const checkbox = li.querySelector("input");
-
-        checkbox.addEventListener("change", function () {
-            habit.completed = checkbox.checked;
-            displayHabits();
-        });
-
-        li.querySelector(".delete-btn").addEventListener("click", function () {
-            habits.splice(index, 1);
-            displayHabits();
-        });
-
-        habitList.appendChild(li);
+    checkboxes.forEach(function (checkbox) {
+        if (checkbox.checked) {
+            completed++;
+        }
     });
 
-    updateProgress();
-}
+    const total = checkboxes.length;
 
-function updateProgress() {
-    if (habits.length === 0) {
-        progressText.textContent = "0% Complete";
-        progressBar.style.width = "0%";
-        return;
-    }
-
-    const completed = habits.filter(function (habit) {
-        return habit.completed;
-    }).length;
-
-    const percentage = Math.round((completed / habits.length) * 100);
+    const percentage = (completed / total) * 100;
 
     progressText.textContent = percentage + "% Complete";
+
     progressBar.style.width = percentage + "%";
 }
+
+// Check progress whenever a checkbox is clicked
+checkboxes.forEach(function (checkbox) {
+    checkbox.addEventListener("change", updateProgress);
+});
